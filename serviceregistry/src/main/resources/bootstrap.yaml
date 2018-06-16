@@ -3,11 +3,19 @@ server:
 spring:
   application:
     name: serviceregistry
+  profiles:
+    active: native
   cloud:
     config:
-      enabled: false
+      enabled: true
+    server:
+        native:
+          searchLocations: classpath:/shared,classpath:/shared/application.yml
     discovery:
       enabled: false
     service-registry:
       auto-registration:
         enabled: false
+eureka:
+  client:
+    registerWithEureka: false

@@ -10,8 +10,12 @@
         <url>http://maven.apache.org</url>
 
 	<modules>
-        <module>persistence</module>
+        	<module>persistence</module>
+		<module>serviceregistry</module>
 		<module>userservice</module>
+		<module>movieservice</module>
+		<module>inventoryservice</module>
+
 	</modules>
 
 
