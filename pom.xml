@@ -27,6 +27,7 @@
 	<modules>
         	<module>persistence</module>
 		<module>serviceregistry</module>
+		<module>gateway</module>
 		<module>userservice</module>
 		<module>movieservice</module>
 		<module>inventoryservice</module>
