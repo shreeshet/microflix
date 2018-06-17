@@ -3,14 +3,13 @@ server:
 spring:
   application:
     name: serviceregistry
-  profiles:
-    active: native
+  profiles: native
   cloud:
     config:
       enabled: true
-    server:
-        native:
-          searchLocations: classpath:/shared,classpath:/shared/application.yml
+      server:
+          native:
+            searchLocations: classpath:/shared
     discovery:
       enabled: false
     service-registry:
