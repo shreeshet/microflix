@@ -3,7 +3,8 @@ server:
 spring:
   application:
     name: serviceregistry
-  profiles: native
+  profiles:
+    active: native
   cloud:
     config:
       enabled: true
