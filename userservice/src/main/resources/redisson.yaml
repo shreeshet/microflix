@@ -10,7 +10,7 @@ singleServerConfig:
   password: null
   subscriptionsPerConnection: 5
   clientName: null
-  address: ${microflix.rediscache}
+  address: "redis://rediscache:6379"
   subscriptionConnectionMinimumIdleSize: 1
   subscriptionConnectionPoolSize: 25
   connectionMinimumIdleSize: 5
