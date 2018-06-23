@@ -1,0 +1,16 @@
+<mat-card class="example-card">
+	<mat-card-header>
+    	<mat-card-title>{{user.firstName}}, {{user.lastName}}</mat-card-title>    	
+  	</mat-card-header>
+  	<mat-card-content>
+  		<mat-form-field class="example-full-width">
+    		<input matInput #search type="search" value="" (keyup.enter)="onKeyEnter(search.value)">
+  		</mat-form-field>
+  		<mat-nav-list>
+  			 <mat-list-item *ngFor="let movie of movies">
+  			 	  <span matBadge="{{movie.rating}}" matBadgePosition="before" matBadgeOverlap="false" class="badge">{{movie.title}}, {{movie.category}} , {{movie.description}} ,{{movie.price}}
+            </span>            
+  			 </mat-list-item>
+  		</mat-nav-list>	
+  	</mat-card-content>
+</mat-card>	
