@@ -18,9 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     protected Logger logger = LoggerFactory.getLogger(UserController.class);
 
-
-
-
     @Autowired
     UserService userService;
 

@@ -26,3 +26,6 @@ management:
     enabled: false
 microflix:
   rediscache: "redis://rediscache:6379"
+redis:
+  host: rediscache
+  port: 6379
