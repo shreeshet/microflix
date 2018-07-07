@@ -1,8 +1,8 @@
 export class User {
-	private customerId: number;
-	private userName: string;
-	private fullName: string;
-	private firstName: string;
-	private lastName: string;
-	private email: string;
+	public customerId: number;
+	public userName: string;
+	public fullName: string;
+	public firstName: string;
+	public lastName: string;
+	public email: string;
 }

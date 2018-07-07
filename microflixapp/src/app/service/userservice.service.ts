@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of , Subject} from 'rxjs';
 import { User } from '../model/user';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { RequestOptions } from '@angular/http';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Router, Resolve, RouterStateSnapshot,Route, CanActivate, 
          ActivatedRouteSnapshot } from '@angular/router';
@@ -13,6 +14,11 @@ export class UserserviceService implements Resolve<User>,CanActivate{
 	
   private userLoginUrl= '/userservice/first_name/';	
   private user:User;
+  private _authToken:string;
+
+  get authToken(): string {
+    return this._authToken;
+  }
 
   constructor(private http: HttpClient,private router: Router) { }
 
@@ -29,11 +35,21 @@ export class UserserviceService implements Resolve<User>,CanActivate{
     return false;
   }
 
+  setAuthToken(headers:HttpHeaders):void {
+    this._authToken = headers.get('X-Auth-Token');
+  }
+
   login(username:string,password:string): Observable<User> {
-  	const url = `${this.userLoginUrl}/${username}`;
-  	return this.http.get(url)
+  	const url = `${this.userLoginUrl}${username}`;
+    return this.http.get(url,{
+      headers:{
+        Authorization:"Basic " + btoa(username+":"+password)
+      },
+      observe:'response'
+    })
       .pipe(
-        map(res => Object.assign(new User(),res)),
+        tap(res => {this._authToken=res.headers.get('X-Auth-Token')}),
+        map(res => Object.assign(new User(),res.body)),
         tap(u => {this.user=u;})
       );
   }
