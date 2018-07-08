@@ -28,15 +28,16 @@ services:
     image: 'movieservice:0.1'
     depends_on:
       - rediscache
-      - configservice
       - serviceregistry
+    deploy:
+      mode: replicated
+      replicas: 2
   inventoryservice:
     build:
       context: ./inventoryservice
     image: 'inventoryservice:0.1'
     depends_on:
       - rediscache
-      - configservice
       - serviceregistry
   userservice:
     build:
@@ -44,7 +45,6 @@ services:
     image: 'userservice:0.1'
     depends_on:
       - rediscache
-      - configservice
       - serviceregistry
 networks:
   default:
