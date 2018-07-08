@@ -5,6 +5,8 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Set;
 
+import com.vividsolutions.jts.geom.Point;
+
 
 /**
  * The persistent class for the customer database table.
@@ -13,6 +15,22 @@ import java.util.Set;
 @Entity
 @Table(name="customer")
 @NamedQuery(name="Inventory.findAll", query="SELECT i FROM Inventory i")
+@SqlResultSetMapping(name="InventoryResults",
+		classes = {
+@ConstructorResult(
+		targetClass = com.simply.tp.microflix.persistence.dto.InventoryDetails.class,
+		columns = {
+				@ColumnResult(name = "film_id",type = int.class),
+				@ColumnResult(name = "rental_duration",type = byte.class),
+				@ColumnResult(name = "inventory_id", type = int.class),
+				@ColumnResult(name = "store_id", type = byte.class),
+				@ColumnResult(name = "last_update", type = Timestamp.class),
+				@ColumnResult(name = "location", type = Point.class)
+
+		}
+)
+}
+		)
 public class Inventory implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int inventoryId;

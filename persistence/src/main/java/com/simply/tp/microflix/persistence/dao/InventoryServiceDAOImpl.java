@@ -1,5 +1,6 @@
 package com.simply.tp.microflix.persistence.dao;
 
+import com.simply.tp.microflix.persistence.dto.InventoryDetails;
 import com.simply.tp.microflix.persistence.entities.Inventory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +23,7 @@ public class InventoryServiceDAOImpl implements InventorySeviceDAO {
 
     @Override
 
-    public List<Inventory> searchInventory(int filmId) {
+    public List<InventoryDetails> searchInventory(int filmId) {
 
         String inventorySQL = "select f.film_id,f.rental_duration,inv.inventory_id,inv.store_id,inv.last_update," +
                 "addr.location from film f join inventory inv on inv.film_id=f.film_id " +
@@ -45,9 +46,9 @@ public class InventoryServiceDAOImpl implements InventorySeviceDAO {
 
 
 
-        Query qry = em.createNativeQuery(inSQL + filmId);
+        Query qry = em.createNativeQuery(inSQL + filmId,"InventoryResults");
 
-        List<Inventory> res = qry.getResultList();
+        List<InventoryDetails> res = qry.getResultList();
 
         return res;
     }

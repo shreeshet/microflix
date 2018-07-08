@@ -1,4 +1,4 @@
-package com.simply.tp.microflix.inventoryservice.dto;
+package com.simply.tp.microflix.persistence.dto;
 
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Point;
@@ -20,7 +20,7 @@ public class InventoryDetails {
     public InventoryDetails() {
     }
 
-    public InventoryDetails(int filmId, byte rentalDuration, int inventoryId, byte storeId, Date lastUpdate,Geometry location) {
+    public InventoryDetails(int filmId, byte rentalDuration, int inventoryId, byte storeId, Date lastUpdate, Geometry location) {
         this.filmId = filmId;
         this.rentalDuration = rentalDuration;
         this.inventoryId = inventoryId;

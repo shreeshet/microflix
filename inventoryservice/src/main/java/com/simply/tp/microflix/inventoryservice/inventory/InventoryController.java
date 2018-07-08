@@ -1,7 +1,7 @@
 package com.simply.tp.microflix.inventoryservice.inventory;
 
-import com.simply.tp.microflix.inventoryservice.dto.InventoryDetails;
 import com.simply.tp.microflix.inventoryservice.service.InventoryServiceImpl;
+import com.simply.tp.microflix.persistence.dto.InventoryDetails;
 import com.simply.tp.microflix.persistence.entities.Inventory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,8 +29,8 @@ public class InventoryController {
         return "Hello "+ name;
     }
 
-    @RequestMapping(value="/inventory/{fid}",method=RequestMethod.GET)
-    public List<Inventory> getFileById(@PathVariable("fid") int fid){
+    @RequestMapping(value="/inventory/{fid}",method=RequestMethod.GET,produces = "application/json")
+    public List<InventoryDetails> getFileById(@PathVariable("fid") int fid){
         return inventoryService.searchInventory(fid);
     };
 

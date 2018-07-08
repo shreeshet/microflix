@@ -1,5 +1,6 @@
 package com.simply.tp.microflix.persistence.dao;
 
+import com.simply.tp.microflix.persistence.dto.InventoryDetails;
 import com.simply.tp.microflix.persistence.entities.Inventory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,7 +26,7 @@ public class InventorySeviceDAOTest {
 
     @Test
     public void testSearchInventory() throws Exception {
-        List<Inventory> li = inventorySeviceDAO.searchInventory(100);
-        System.out.println(li.size());
+        List<InventoryDetails> li = inventorySeviceDAO.searchInventory(100);
+        System.out.println(li.get(0));
     }
 }

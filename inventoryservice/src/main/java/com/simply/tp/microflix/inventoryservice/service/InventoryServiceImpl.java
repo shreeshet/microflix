@@ -1,5 +1,6 @@
 package com.simply.tp.microflix.inventoryservice.service;
 
+import com.simply.tp.microflix.persistence.dto.InventoryDetails;
 import com.simply.tp.microflix.persistence.entities.Inventory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,7 +17,7 @@ public class InventoryServiceImpl implements InventoryService {
     InventorySeviceDAO movieSeviceDAO;
 
 
-    public List<Inventory> searchInventory(int inventoryId){
+    public List<InventoryDetails> searchInventory(int inventoryId){
         return movieSeviceDAO.searchInventory(inventoryId);
     }
 }
