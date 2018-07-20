@@ -8,7 +8,7 @@ spring:
     host: rabbitmq
   sleuth:
     sampler:
-      percentage: 1.0
+      probability: 1.0
   cloud:
     inetutils:
       preferredNetworks:
