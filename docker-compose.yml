@@ -26,6 +26,8 @@ services:
     depends_on:
       - rediscache
       - serviceregistry
+    extra_hosts:
+      - 'sakiladb:${SAKILADB_IP}'
   inventoryservice:
     build:
       context: ./inventoryservice
@@ -33,6 +35,8 @@ services:
     depends_on:
       - rediscache
       - serviceregistry
+    extra_hosts:
+      - 'sakiladb:${SAKILADB_IP}'
   userservice:
     build:
       context: ./userservice
@@ -40,6 +44,8 @@ services:
     depends_on:
       - rediscache
       - serviceregistry
+    extra_hosts:
+      - 'sakiladb:${SAKILADB_IP}'
 networks:
   default:
     external:
