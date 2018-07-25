@@ -1,0 +1,36 @@
+spring:
+  datasource:
+    url: jdbc:mysql://sakiladb:3306/sakila
+    username: sakilaflix
+    password: thappu
+    driver-class-name: com.mysql.jdbc.Driver
+  rabbitmq:
+    host: rabbitmq
+  sleuth:
+    sampler:
+      probability: 1.0
+  cloud:
+    inetutils:
+      preferredNetworks:
+      - 192.168
+      - 10.0
+logging:
+  level:
+    org.springframework.web: DEBUG
+    com.simply.tp.microflix: DEBUG
+    org.hibernate: INFO
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    registerWithEureka: true
+    service-url:
+     defaultZone: http://serviceregistry:8761/eureka
+management:
+  security:
+    enabled: false
+microflix:
+  rediscache: "redis://rediscache:6379"
+redis:
+  host: rediscache
+  port: 6379

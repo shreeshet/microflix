@@ -1,0 +1,21 @@
+server:
+  port: 8761
+spring:
+  application:
+    name: serviceregistry
+  profiles:
+    active: native
+  cloud:
+    config:
+      enabled: true
+      server:
+          native:
+            searchLocations: classpath:/shared
+    discovery:
+      enabled: false
+    service-registry:
+      auto-registration:
+        enabled: false
+eureka:
+  client:
+    registerWithEureka: false

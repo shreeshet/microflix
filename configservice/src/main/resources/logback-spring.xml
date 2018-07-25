@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true">
+	
+    <property name="log-path" value="/fdx/logs" />
+
+	<appender name="console-log" class="ch.qos.logback.core.ConsoleAppender">
+                <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                        <Pattern>%d{ISO8601} %-5p %C [%t] - %m%n</Pattern>
+                </encoder>
+	</appender>
+
+	<!--  <appender name="Error_log"
+                class="ch.qos.logback.core.rolling.RollingFileAppender">
+                <file>${log-path}/error.log</file>
+                <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                        <Pattern>%d{ISO8601} %-5p %C [%t] - %m%n</Pattern>
+                </encoder>
+                <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                        <fileNamePattern>${log-path}/error.%d{yyyy-MM-dd}.%i.log
+                        </fileNamePattern>
+                        <timeBasedFileNamingAndTriggeringPolicy
+                                class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                                <maxFileSize>10MB</maxFileSize>
+                        </timeBasedFileNamingAndTriggeringPolicy>
+                </rollingPolicy>
+        </appender>
+
+
+	<appender name="Debug_log"
+                class="ch.qos.logback.core.rolling.RollingFileAppender">
+                <file>${log-path}/debug.log</file>
+                <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                        <Pattern>%d{ISO8601} %-5p %C [%t] - %m%n</Pattern>
+                </encoder>
+                <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                        <fileNamePattern>${log-path}/debug.%d{yyyy-MM-dd}.%i.log
+                        </fileNamePattern>
+                        <timeBasedFileNamingAndTriggeringPolicy
+                                class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                                <maxFileSize>10MB</maxFileSize>
+                        </timeBasedFileNamingAndTriggeringPolicy>
+                </rollingPolicy>
+        </appender>
+
+	<appender name="Info_log"
+                class="ch.qos.logback.core.rolling.RollingFileAppender">
+                <file>${log-path}/info.log</file>
+                <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                        <Pattern>%d{ISO8601} %-5p %C [%t] - %m%n</Pattern>
+                </encoder>
+                <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                        <fileNamePattern>${log-path}/info.%d{yyyy-MM-dd}.%i.log
+                        </fileNamePattern>
+                        <timeBasedFileNamingAndTriggeringPolicy
+                                class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                                <maxFileSize>10MB</maxFileSize>
+                        </timeBasedFileNamingAndTriggeringPolicy>
+                </rollingPolicy>
+        </appender> 
+    -->
+
+
+	<appender name="AMQP" class="org.springframework.amqp.rabbit.logback.AmqpAppender">
+	   <layout>
+        <pattern>
+            {
+            "time": "%date{ISO8601}",
+            "thread": "%thread",
+            "level": "%level",
+            "class": "%logger{36}",
+            "message": "%message"
+            }
+        </pattern>
+    	</layout> 
+
+	<applicationId>configservice</applicationId>
+        <host>192.168.1.3</host>
+    	<routingKeyPattern>logstash</routingKeyPattern>
+    	<declareExchange>true</declareExchange>
+    	<exchangeType>direct</exchangeType>
+    	<exchangeName>ex_logstash</exchangeName>
+ 
+    	<generateId>true</generateId>
+    	<charset>UTF-8</charset>
+    	<durable>true</durable>
+    	<deliveryMode>PERSISTENT</deliveryMode>
+
+
+	</appender>
+
+
+        <logger name="com.simply.tp.microflix" level="debug" additivity="false">
+		<appender-ref ref="AMQP" level="debug" />
+		<!--<appender-ref ref="Info_log" level="info" />
+                <appender-ref ref="Debug_log" level="debug" />
+                <appender-ref ref="Error_log" level="error" />-->
+                <appender-ref ref="console-log" level="debug" />
+        </logger>
+
+
+	<logger name="org.springframework.transaction" level="error" additivity="false">
+		<appender-ref ref="console-log"/>
+	</logger>
+
+	<logger name="org.hibernate" level="error" additivity="false">
+		<appender-ref ref="console-log"/>
+	</logger>
+
+	<logger name="org.hibernate.type" level="error" additivity="false">
+		<appender-ref ref="console-log"/>
+	</logger>
+
+
+	<root level="info">
+		<appender-ref ref="console-log" />
+	</root>
+
+</configuration>
