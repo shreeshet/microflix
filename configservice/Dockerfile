@@ -1,4 +1,4 @@
-FROM java:7-jre
+FROM java:8-jre
 
 ADD ./target/configservice-1.0-SNAPSHOT.jar /app/
 CMD ["java", "-Xmx200m", "-jar", "/app/configservice-1.0-SNAPSHOT.jar"]

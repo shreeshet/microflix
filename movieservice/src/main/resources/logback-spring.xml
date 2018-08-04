@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="true">
 	
-    <property name="log-path" value="/fdx/logs" />
+    <property name="log-path" value="/logs" />
+    <property name="app-name" value="movieservice"/>
+    <property name="rabbitmq-host" value="rabbitmq"/>
+
 
 	<appender name="console-log" class="ch.qos.logback.core.ConsoleAppender">
                 <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
@@ -9,9 +12,9 @@
                 </encoder>
 	</appender>
 
-	<!--  <appender name="Error_log"
+	<appender name="Error_log"
                 class="ch.qos.logback.core.rolling.RollingFileAppender">
-                <file>${log-path}/error.log</file>
+                <file>${log-path}/${app-name}_error.log</file>
                 <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
                         <Pattern>%d{ISO8601} %-5p %C [%t] - %m%n</Pattern>
                 </encoder>
@@ -28,7 +31,7 @@
 
 	<appender name="Debug_log"
                 class="ch.qos.logback.core.rolling.RollingFileAppender">
-                <file>${log-path}/debug.log</file>
+                <file>${log-path}/${app-name}_debug.log</file>
                 <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
                         <Pattern>%d{ISO8601} %-5p %C [%t] - %m%n</Pattern>
                 </encoder>
@@ -44,7 +47,7 @@
 
 	<appender name="Info_log"
                 class="ch.qos.logback.core.rolling.RollingFileAppender">
-                <file>${log-path}/info.log</file>
+                <file>${log-path}/${app-name}_info.log</file>
                 <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
                         <Pattern>%d{ISO8601} %-5p %C [%t] - %m%n</Pattern>
                 </encoder>
@@ -57,7 +60,6 @@
                         </timeBasedFileNamingAndTriggeringPolicy>
                 </rollingPolicy>
         </appender> 
-    -->
 
 
 	<appender name="AMQP" class="org.springframework.amqp.rabbit.logback.AmqpAppender">
@@ -73,8 +75,8 @@
         </pattern>
     	</layout> 
 
-        <host>rabbitmq</host>
-	    <applicationId>userservice</applicationId>
+        <host>${rabbitmq-host}</host>
+	    <applicationId>${app-name}</applicationId>
     	<routingKeyPattern>logstash</routingKeyPattern>
     	<declareExchange>true</declareExchange>
     	<exchangeType>direct</exchangeType>
@@ -91,9 +93,9 @@
 
         <logger name="com.simply.tp.microflix" level="debug" additivity="false">
 		<appender-ref ref="AMQP" level="debug" />
-		<!--<appender-ref ref="Info_log" level="info" />
+		<appender-ref ref="Info_log" level="info" />
                 <appender-ref ref="Debug_log" level="debug" />
-                <appender-ref ref="Error_log" level="error" />-->
+                <appender-ref ref="Error_log" level="error" />
                 <appender-ref ref="console-log" level="debug" />
         </logger>
 

@@ -826,6 +826,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
+/* harmony import */ var _userservice_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./userservice.service */ "./src/app/service/userservice.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -838,22 +839,28 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var MovieService = /** @class */ (function () {
-    function MovieService(http) {
+    function MovieService(http, userService) {
         this.http = http;
+        this.userService = userService;
         this.movieSearchUrl = '/movieservice/movie/title';
     }
     MovieService.prototype.movieSearch = function (searchText) {
         var url = this.movieSearchUrl + "/" + searchText;
         return this.http
-            .get(url)
+            .get(url, {
+            headers: {
+                'X-Auth-Token': this.userService.authToken
+            }
+        })
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["tap"])(function (r) { return console.log(r); }));
     };
     MovieService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
             providedIn: 'root'
         }),
-        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"], _userservice_service__WEBPACK_IMPORTED_MODULE_3__["UserserviceService"]])
     ], MovieService);
     return MovieService;
 }());
@@ -899,6 +906,13 @@ var UserserviceService = /** @class */ (function () {
         this.router = router;
         this.userLoginUrl = '/userservice/first_name/';
     }
+    Object.defineProperty(UserserviceService.prototype, "authToken", {
+        get: function () {
+            return this._authToken;
+        },
+        enumerable: true,
+        configurable: true
+    });
     UserserviceService.prototype.resolve = function (route, state) {
         return Object(rxjs__WEBPACK_IMPORTED_MODULE_1__["of"])(this.user);
     };
@@ -909,11 +923,19 @@ var UserserviceService = /** @class */ (function () {
         this.router.navigate(['/']);
         return false;
     };
+    UserserviceService.prototype.setAuthToken = function (headers) {
+        this._authToken = headers.get('X-Auth-Token');
+    };
     UserserviceService.prototype.login = function (username, password) {
         var _this = this;
-        var url = this.userLoginUrl + "/" + username;
-        return this.http.get(url)
-            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["map"])(function (res) { return Object.assign(new _model_user__WEBPACK_IMPORTED_MODULE_2__["User"](), res); }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["tap"])(function (u) { _this.user = u; }));
+        var url = "" + this.userLoginUrl + username;
+        return this.http.get(url, {
+            headers: {
+                Authorization: "Basic " + btoa(username + ":" + password)
+            },
+            observe: 'response'
+        })
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["tap"])(function (res) { _this._authToken = res.headers.get('X-Auth-Token'); }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["map"])(function (res) { return Object.assign(new _model_user__WEBPACK_IMPORTED_MODULE_2__["User"](), res.body); }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["tap"])(function (u) { _this.user = u; }));
     };
     UserserviceService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({

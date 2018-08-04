@@ -1,10 +1,32 @@
 version: '3.0'
 services:
+  sakiladb:
+    build:
+      context: ./sakiladb
+    image: 'mysql:0.1'
+    hostname: 'sakiladb'
+    volumes:
+      - "microflix_data:/var/lib/mysql"  
+  rabbitmq:
+    build:
+      context: ./rabbitmq
+    image: 'rabbitmq:0.1'
+    ports:
+      - '5672:5672'
+      - '30001:15672'
+    hostname: 'rabbitmq'
   rediscache:
     image: 'redis:latest'
     ports:
       - '6379:6379'
     hostname: 'rediscache'
+  configservice:
+    build:
+      context: ./configservice
+    image: 'configservice:0.1'
+    ports:
+      - '8888:8888'
+    hostname: 'configservice'
   serviceregistry:
     build:
       context: ./serviceregistry
@@ -19,33 +41,59 @@ services:
     ports:
       - '8765:8080'
     hostname: 'gateway'
+  elasticsearch:
+    build:
+      context: ./elasticsearch    
+    image: 'elasticsearch:0.1'
+    environment:
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+      - esdata1:/usr/share/elasticsearch/data
+    ports:
+      - '9200:9200'
+  logstash:
+    build:
+      context: ./logstash    
+    image: 'logstash:0.1'
+    depends_on:
+      - rabbitmq
+      - elasticsearch
   movieservice:
     build:
       context: ./movieservice
     image: 'movieservice:0.1'
     depends_on:
       - rediscache
+      - configservice
       - serviceregistry
-    extra_hosts:
-      - 'sakiladb:${SAKILADB_IP}'
+    volumes:
+      - "logs:/logs"
   inventoryservice:
     build:
       context: ./inventoryservice
     image: 'inventoryservice:0.1'
     depends_on:
       - rediscache
+      - configservice
       - serviceregistry
-    extra_hosts:
-      - 'sakiladb:${SAKILADB_IP}'
+    volumes:
+      - "logs:/logs"
   userservice:
     build:
       context: ./userservice
     image: 'userservice:0.1'
     depends_on:
       - rediscache
+      - configservice
       - serviceregistry
-    extra_hosts:
-      - 'sakiladb:${SAKILADB_IP}'
+    volumes:
+      - "logs:/logs" 
+volumes:
+  microflix_data:
+  logs:
+  esdata1:
 networks:
   default:
     external:

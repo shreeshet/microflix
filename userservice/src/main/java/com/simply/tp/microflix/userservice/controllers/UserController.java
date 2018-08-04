@@ -23,6 +23,7 @@ public class UserController {
 
     @RequestMapping(value="/first_name/{name}",method=RequestMethod.GET)
     public CustomerDTO getCustomerByFirstName(@PathVariable("name")String firs_name){
+        logger.debug("in getCustomerByFirstName ...." + firs_name);
         return userService.searchCustomer(firs_name);
     };
 
